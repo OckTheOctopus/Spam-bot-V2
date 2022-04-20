@@ -2,8 +2,11 @@
 import pyautogui
 import time
 import sys
+#from pynput import keyboard
 
 def main():
+    # Kill switch in progress
+    stop = 'q'
     # List of payloads
     the_bee_movie = open("Payloads/beemovie.txt", 'r')
     shrek = open("Payloads/shrek.txt", 'r')
@@ -16,6 +19,7 @@ def main():
         for word in set_payload:
             pyautogui.typewrite(word)
             pyautogui.press('enter')
+            time.sleep(0.5)
 
     def launch_custom_movie(filepath, delay):
         file = open(filepath, 'r')
@@ -47,9 +51,10 @@ def main():
 1: Movie script
 2: Copypasta
 3: 100 bottles of beer
-4: Help
-5: Exit
-    """)
+4: Whiten
+5: Help
+6: Exit
+""")
         if selection == '1':
             print("Good choice. Type in the number that corresponds to the movie you would like to select.")
             while True:
@@ -60,7 +65,7 @@ def main():
 4: The Shrek 3 script
 5: Help
 6: Exit
-    """)
+""")
                 if movie_payload == '1':
                     launch_movie_config("THE BEE MOVIE SCRIPT", the_bee_movie)
                 elif movie_payload == '2':
@@ -76,7 +81,7 @@ def main():
         4: Sends the entire Shrek 3 script. It sends it line by line.
         5: Displays this message.
         6: Exits the script.
-        """)
+""")
                 elif movie_payload == '6':
                     print("Thanks for using!")
                     sys.exit()
@@ -95,15 +100,24 @@ def main():
                 print("Uh-oh! Something broke on our end. Please make sure you typed in an integer greater than 1! Run the script and try again.")
                 sys.exit()
 
-            interval_delay = int(input("How long would you like the delay to be (in seconds) in between messages? (Hit enter)\n"))
+            interval_delay = int(input("How long would you like the delay to be (in seconds) in between messages?\n"))
+            delay = int(input("How long would you like the delay to be before the script runs?\n"))
 
-            time.sleep(interval_delay)
-            for i in range(loop_num + 1):
+            time.sleep(delay)
+            for i in range(loop_num):
                 pyautogui.typewrite(copypasta_text)
                 pyautogui.press("enter")
+                time.sleep(interval_delay)
 
         elif selection == '3':
             beverage = input("Select your beverage:\n")
+            numBeverages = int(input(f"How many bottles of {beverage} would you like to start off with?\n"))
+            while numBeverages <= 0:
+                if numBeverages > 0:
+                    break
+                else:
+                    print("Please pick a number greater than 0.")
+                    numBeverages = int(input(f"How many bottles of {beverage} would you like to start off with?\n"))
 
             try:
                 time_delay = int(input("How long would you like to wait (in seconds) before the spamming starts?\n"))
@@ -115,42 +129,76 @@ def main():
                 sys.exit()
 
             time.sleep(time_delay)
-            for i in range(3, -1, -1):
+            for i in range(numBeverages, -1, -1):
                 if i > 1:
                     pyautogui.typewrite(f"{i} bottles of {beverage} on the wall,")
                     pyautogui.press('enter')
+                    time.sleep(1)
                     pyautogui.typewrite(f"{i} bottles of {beverage} on the wall,")
                     pyautogui.press('enter')
+                    time.sleep(1)
                     pyautogui.typewrite("You take one down and pass it around,")
                     pyautogui.press('enter')
+                    time.sleep(1)
                     pyautogui.typewrite(f"{i-1} bottles of {beverage} on the wall.")
                     pyautogui.press('enter')
+                    time.sleep(1)
                 elif i == 1:
                     pyautogui.typewrite(f"{i} bottle of {beverage} on the wall,")
                     pyautogui.press('enter')
+                    time.sleep(1)
                     pyautogui.typewrite(f"{i} bottle of {beverage} on the wall,")
                     pyautogui.press('enter')
+                    time.sleep(1)
                     pyautogui.typewrite("You take one down and pass it around,")
                     pyautogui.press('enter')
+                    time.sleep(1)
                     pyautogui.typewrite(f"No bottles of {beverage} on the wall.")
                     pyautogui.press('enter')
+                    time.sleep(1)
                 else:
                     pyautogui.typewrite(f"No bottles of {beverage} on the wall,")
                     pyautogui.press('enter')
+                    time.sleep(1)
                     pyautogui.typewrite(f"No bottles of {beverage} on the wall,")
                     pyautogui.press('enter')
+                    time.sleep(1)
                     pyautogui.typewrite("You go to the store and buy some more,")
                     pyautogui.press('enter')
+                    time.sleep(1)
                     pyautogui.typewrite(f"100 bottles of {beverage} on the wall.")
                     pyautogui.press('enter')
+                    time.sleep(1)
         elif selection == '4':
+            whiteout = '_' + ("\n" * 1998) + '_'
+            while True:
+                numtimes = int(input("How many times would you like to send it?\n"))
+                if (numtimes < 1) or (numtimes % 1 != 0) :
+                    print("Please input a whole number greater than 0!")
+                    break
+                timeout = int(input("How long would you like to wait before launching the script?\n"))
+                if timeout < 0:
+                    print("Please input a number greater than 0!")
+                    break
+                msg_delay = int(input("How long would you like to wait in between messages?\n"))
+                if msg_delay < 0:
+                    print("Please input a number greater than 0!")
+                    break
+                
+                for message in range(numtimes, -1, -1):
+                    pyautogui.typewrite(whiteout)
+                    pyautogui.press('enter')
+                    time.sleep(msg_delay)
+        elif selection == '5':
             # Help message
             print("""1: Launches an entire movie-sized chunk of text once - it reads every line then hits enter until the end of the file to avoid character limits.
 2: Sends a copypasta-sized chunk of text (normally <1500 characters) repeatedly in the same message to wreak havoc.
-3: Displays this message.
-4: Exits the script
-    """)
-        elif selection == '5':
+3: Similar to 1, but sends the accursed "One hundred bottles of beer on the wall" song. Can change the beverage and number of bottles.
+4: Sends _ + 1998 newlines + _ (good for Discord pain)
+5: Displays this message.
+6: Exits the script
+""")
+        elif selection == '6':
             print("Thanks for using!")
             sys.exit()
         else:
