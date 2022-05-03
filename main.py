@@ -2,11 +2,9 @@
 import pyautogui
 import time
 import sys
-#from pynput import keyboard
+import keyboard
 
-def main():
-    # Kill switch in progress
-    stop = 'q'
+def main(): 
     # List of payloads
     the_bee_movie = open("Payloads/beemovie.txt", 'r')
     shrek = open("Payloads/shrek.txt", 'r')
@@ -17,6 +15,8 @@ def main():
     def launch_movie(set_payload, delay):
         time.sleep(delay)
         for word in set_payload:
+            if keyboard.is_pressed('q'):
+                break
             pyautogui.typewrite(word)
             pyautogui.press('enter')
             time.sleep(0.5)
@@ -24,6 +24,8 @@ def main():
     def launch_custom_movie(filepath, delay):
         file = open(filepath, 'r')
         for word in file:
+            if keyboard.is_pressed('q'):
+                break
             pyautogui.typewrite(word)
             pyautogui.press('enter')
 
@@ -130,6 +132,8 @@ def main():
 
             time.sleep(time_delay)
             for i in range(numBeverages, -1, -1):
+                if keyboard.is_pressed('q'):
+                    break
                 if i > 1:
                     pyautogui.typewrite(f"{i} bottles of {beverage} on the wall,")
                     pyautogui.press('enter')
@@ -170,7 +174,8 @@ def main():
                     pyautogui.press('enter')
                     time.sleep(1)
         elif selection == '4':
-            whiteout = '_' + ("\n" * 1998) + '_'
+            blank = "\n" * 100
+            whiteout = f"_{blank}_"
             while True:
                 numtimes = int(input("How many times would you like to send it?\n"))
                 if (numtimes < 1) or (numtimes % 1 != 0) :
@@ -185,7 +190,10 @@ def main():
                     print("Please input a number greater than 0!")
                     break
                 
-                for message in range(numtimes, -1, -1):
+                time.sleep(timeout)
+                for message in range(0, numtimes + 1, 1):
+                    if keyboard.is_pressed('q'):
+                        break
                     pyautogui.typewrite(whiteout)
                     pyautogui.press('enter')
                     time.sleep(msg_delay)
