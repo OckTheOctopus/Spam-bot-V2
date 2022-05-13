@@ -174,8 +174,8 @@ def main():
                     pyautogui.press('enter')
                     time.sleep(1)
         elif selection == '4':
-            blank = "\n" * 100
-            whiteout = f"_{blank}_"
+            blank = "_ _\n" * 10
+            whiteout = f"{blank}"
             while True:
                 numtimes = int(input("How many times would you like to send it?\n"))
                 if (numtimes < 1) or (numtimes % 1 != 0) :
@@ -198,6 +198,18 @@ def main():
                     pyautogui.press('enter')
                     time.sleep(msg_delay)
         elif selection == '5':
+            starting_num = int(input("What is the starting number?\n"))
+            skip = int(input("Skip intervals?"))
+            stop_num = int(input("Stop number?"))
+
+            for i in range(starting_num - skip, stop_num, skip):
+                if keyboard.is_pressed('q'):
+                    break
+                pyautogui.typewrite(f"{i}")
+                pyautogui.press('enter')
+                time.sleep(5)
+            
+        elif selection == '6':
             # Help message
             print("""1: Launches an entire movie-sized chunk of text once - it reads every line then hits enter until the end of the file to avoid character limits.
 2: Sends a copypasta-sized chunk of text (normally <1500 characters) repeatedly in the same message to wreak havoc.
@@ -206,7 +218,7 @@ def main():
 5: Displays this message.
 6: Exits the script
 """)
-        elif selection == '6':
+        elif selection == '7':
             print("Thanks for using!")
             sys.exit()
         else:
