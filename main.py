@@ -54,8 +54,9 @@ def main():
 2: Copypasta
 3: 100 bottles of beer
 4: Whiten
-5: Help
-6: Exit
+5: Count
+6: Help
+7: Exit
 """)
         if selection == '1':
             print("Good choice. Type in the number that corresponds to the movie you would like to select.")
@@ -214,9 +215,10 @@ def main():
             print("""1: Launches an entire movie-sized chunk of text once - it reads every line then hits enter until the end of the file to avoid character limits.
 2: Sends a copypasta-sized chunk of text (normally <1500 characters) repeatedly in the same message to wreak havoc.
 3: Similar to 1, but sends the accursed "One hundred bottles of beer on the wall" song. Can change the beverage and number of bottles.
-4: Sends _ + 1998 newlines + _ (good for Discord pain)
-5: Displays this message.
-6: Exits the script
+4: Spams blank lines
+5: Counts
+6: Displays this message.
+7: Exits the script
 """)
         elif selection == '7':
             print("Thanks for using!")
